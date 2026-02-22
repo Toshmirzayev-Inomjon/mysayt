@@ -33,11 +33,17 @@ def module_exists(name):
     return importlib.util.find_spec(name) is not None
 
 
-SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-change-this-in-production')
-DEBUG = os.getenv("DEBUG", "False").lower() in ("1", "true", "yes", "y", "on")
-ALLOWED_HOSTS = [h.strip() for h in os.getenv('DJANGO_ALLOWED_HOSTS', '*').split(',') if h.strip()]
+SECRET_KEY = "django-insecure-change-this-in-production"
 
-SITE_URL = os.getenv('DJANGO_SITE_URL', 'http://127.0.0.1:8000').rstrip('/')
+DEBUG = False
+
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+    "mysayt-1.onrender.com",
+]
+
+SITE_URL = "https://mysayt-1.onrender.com"
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -276,9 +282,3 @@ if SENTRY_DSN and module_exists('sentry_sdk'):
         traces_sample_rate=float(os.getenv('SENTRY_TRACES_SAMPLE_RATE', '0.2')),
         send_default_pii=True,
     )
-ALLOWED_HOSTS = [
-    "localhost",
-    "127.0.0.1",
-    "mysayt-1.onrender.com",
-    ".onrender.com",
-]
