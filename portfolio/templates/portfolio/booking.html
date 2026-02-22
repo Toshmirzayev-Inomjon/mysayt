@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load portfolio_i18n %}
+{% block title %}{% tr 'booking.title' %}{% endblock %}
+{% block meta_description %}{% tr 'booking.meta_description' %}{% endblock %}
+{% block content %}
+<section class="section container glass reveal">
+    <div class="section-head">
+        <p class="section-kicker">{% tr 'booking.kicker' %}</p>
+        <h2>{% tr 'booking.heading' %}</h2>
+    </div>
+
+    {% if booking_slots %}
+    <div class="booking-slots">
+        <h3>{% tr 'booking.slot_heading' %}</h3>
+        <p class="muted">{% tr 'booking.slot_hint' %}</p>
+        <div class="booking-slots__grid">
+            {% for slot in booking_slots %}
+            <button
+                type="button"
+                class="btn ghost slot-pick-btn"
+                data-slot-value="{{ slot.value }}"
+                title="{{ slot.iso }}"
+            >{{ slot.label }}</button>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <form method="post" class="contact-form">
+        {% csrf_token %}
+        {{ form.full_name }}
+        {{ form.email }}
+        <div class="booking-datetime-wrap">{{ form.preferred_datetime }}</div>
+        {{ form.note }}
+        {% if recaptcha_site_key %}
+        <div class="captcha-wrap">
+            <div class="g-recaptcha" data-sitekey="{{ recaptcha_site_key }}"></div>
+        </div>
+        {% endif %}
+        <button type="submit" class="btn">{% tr 'booking.submit' %}</button>
+    </form>
+
+    <div class="quick-contact">
+        <h3>{% tr 'booking.quick_contact_heading' %}</h3>
+        <p class="muted">{% tr 'booking.quick_contact_desc' %}</p>
+        <div class="actions-row">
+            {% if whatsapp_url %}
+            <a class="btn ghost" href="{{ whatsapp_url }}" target="_blank" rel="noopener">{% tr 'booking.quick_contact_whatsapp' %}</a>
+            {% endif %}
+            {% if telegram_url %}
+            <a class="btn ghost" href="{{ telegram_url }}" target="_blank" rel="noopener">{% tr 'booking.quick_contact_telegram' %}</a>
+            {% endif %}
+            {% if not whatsapp_url and not telegram_url %}
+            <p class="muted">{% tr 'booking.quick_contact_missing' %}</p>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,15 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#0D1B2A"/>
+  <rect x="54" y="54" width="1092" height="522" rx="28" fill="url(#bg)"/>
+  <circle cx="210" cy="154" r="74" fill="#0EA371" opacity="0.35"/>
+  <circle cx="1040" cy="490" r="96" fill="#3B82F6" opacity="0.35"/>
+  <text x="120" y="270" fill="#ECFFF8" font-size="68" font-family="Arial, sans-serif" font-weight="700">Inomjon Portfolio</text>
+  <text x="120" y="338" fill="#9DD8C4" font-size="34" font-family="Arial, sans-serif">Django Backend Developer</text>
+  <text x="120" y="410" fill="#C6E1FF" font-size="26" font-family="Arial, sans-serif">API, Admin panel, Monitoring va Production deploy</text>
+  <defs>
+    <linearGradient id="bg" x1="120" y1="72" x2="1080" y2="558" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#102437"/>
+      <stop offset="1" stop-color="#0C1725"/>
+    </linearGradient>
+  </defs>
+</svg>

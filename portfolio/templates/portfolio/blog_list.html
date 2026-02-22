@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load portfolio_i18n %}
+{% block title %}{% tr 'blog_list.title' %}{% endblock %}
+{% block meta_description %}{% tr 'blog_list.meta_description' %}{% endblock %}
+{% block canonical_url %}{{ site_url }}{% url 'portfolio:blog_list' %}{% endblock %}
+{% block content %}
+<section class="section container reveal">
+    <div class="section-head">
+        <p class="section-kicker">{% tr 'blog_list.kicker' %}</p>
+        <h2>{% tr 'blog_list.heading' %}</h2>
+    </div>
+    {% if page_obj %}
+    <div class="project-grid">
+        {% for post in page_obj %}
+        <article class="project-card reveal" style="--stagger: {{ forloop.counter0 }};">
+            {% if post.cover_image %}
+                <img src="{{ post.cover_image.url }}" alt="{{ post.title }}" class="project-image" loading="lazy" decoding="async">
+            {% else %}
+                <img src="https://picsum.photos/seed/blog-list{{ post.pk }}/900/560" alt="{{ post.title }}" class="project-image" loading="lazy" decoding="async">
+            {% endif %}
+            <h3>{{ post.title }}</h3>
+            <p>{{ post.summary|truncatechars:170 }}</p>
+            <p class="date-line">{{ post.published_at }}</p>
+            <a class="btn" href="{% url 'portfolio:blog_detail' post.slug %}">{% tr 'blog_list.read' %}</a>
+        </article>
+        {% endfor %}
+    </div>
+    <div class="actions-row">
+        {% if page_obj.has_previous %}<a class="btn ghost" href="?page={{ page_obj.previous_page_number }}">{% tr 'blog_list.prev' %}</a>{% endif %}
+        {% if page_obj.has_next %}<a class="btn ghost" href="?page={{ page_obj.next_page_number }}">{% tr 'blog_list.next' %}</a>{% endif %}
+    </div>
+    {% else %}
+    <p>{% tr 'blog_list.empty' %}</p>
+    {% endif %}
+</section>
+{% endblock %}

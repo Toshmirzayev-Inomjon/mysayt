@@ -1,0 +1,169 @@
+{% load static portfolio_i18n %}
+<!DOCTYPE html>
+<html lang="{{ current_language|default:'uz' }}" data-theme="{{ preferred_theme|default:'dark' }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Portfolio{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}{% tr 'base.meta_description' %}{% endblock %}">
+    <link rel="canonical" href="{% block canonical_url %}{{ request.build_absolute_uri }}{% endblock %}">
+    {% for item in alternate_language_urls %}
+    <link rel="alternate" hreflang="{{ item.code }}" href="{{ item.url }}">
+    {% endfor %}
+    <link rel="alternate" hreflang="x-default" href="{{ request.build_absolute_uri }}">
+    <link rel="alternate" type="application/rss+xml" title="Portfolio Blog RSS" href="{% url 'portfolio:blog_feed' %}">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Inomjon Portfolio">
+    <meta property="og:title" content="{% block og_title %}{% block title_og_fallback %}Portfolio{% endblock %}{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}{% block meta_description_og_fallback %}{% tr 'base.meta_description_og' %}{% endblock %}{% endblock %}">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    <meta property="og:image" content="{% block og_image %}{{ default_og_image }}{% endblock %}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{% block twitter_title %}{% block title_twitter_fallback %}Portfolio{% endblock %}{% endblock %}">
+    <meta name="twitter:description" content="{% block twitter_description %}{% block meta_description_twitter_fallback %}{% tr 'base.meta_description_og' %}{% endblock %}{% endblock %}">
+    <meta name="twitter:image" content="{% block twitter_image %}{{ default_og_image }}{% endblock %}">
+    <meta property="og:locale" content="{{ current_language|default:'uz' }}">
+    <meta name="theme-color" content="#16c784">
+    <link rel="manifest" href="{% url 'portfolio:manifest_json' %}">
+    <link rel="icon" type="image/svg+xml" href="{% static 'brand/favicon.svg' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.coverr.co" crossorigin>
+    <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Inomjon",
+      "url": "{{ site_url }}",
+      "jobTitle": "Backend Developer",
+      "knowsAbout": ["Django", "Django REST Framework", "PostgreSQL", "API Architecture"]
+    }
+    </script>
+    {% block structured_data %}{% endblock %}
+</head>
+<body>
+<div id="pageLoader" class="page-loader" aria-hidden="true">
+    <div class="loader-shell">
+        <div class="skeleton sk-logo"></div>
+        <div class="skeleton sk-title"></div>
+        <div class="skeleton sk-line"></div>
+        <div class="skeleton-grid">
+            <div class="skeleton sk-card"></div>
+            <div class="skeleton sk-card"></div>
+            <div class="skeleton sk-card"></div>
+        </div>
+    </div>
+</div>
+
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-glow" id="cursorGlow"></div>
+
+<div class="bg-canvas">
+    <video
+        class="bg-video bg-video-main"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="none"
+        poster="https://images.unsplash.com/photo-1518773553398-650c184e0bb3?auto=format&fit=crop&w=1800&q=70"
+        data-video-fallback="1"
+    >
+        <source src="https://cdn.coverr.co/videos/coverr-programming-in-dark-room-1579/1080p.mp4" type="video/mp4">
+    </video>
+    <video
+        class="bg-video bg-video-secondary"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="none"
+        poster="https://images.unsplash.com/photo-1484417894907-623942c8ee29?auto=format&fit=crop&w=1800&q=70"
+        data-video-fallback="1"
+    >
+        <source src="https://cdn.coverr.co/videos/coverr-blurred-city-lights-1569/1080p.mp4" type="video/mp4">
+    </video>
+    <div class="bg-layer bg-noise"></div>
+    <div class="bg-layer bg-grid"></div>
+    <div class="bg-layer bg-photo"></div>
+    <div class="bg-layer bg-aurora a1" data-parallax="12"></div>
+    <div class="bg-layer bg-aurora a2" data-parallax="18"></div>
+    <div class="bg-layer bg-aurora a3" data-parallax="24"></div>
+</div>
+
+<div class="bg-orb orb-one" data-parallax="14"></div>
+<div class="bg-orb orb-two" data-parallax="24"></div>
+
+<header class="site-header">
+    <div class="container nav-wrap">
+        <a href="{% url 'portfolio:home' %}" class="logo">
+            <img src="{% static 'brand/logo-mark.svg' %}" alt="Logo" class="logo-mark">
+            <span>Inomjon / Portfolio</span>
+        </a>
+        <button id="navToggle" class="nav-toggle" type="button" aria-label="{% tr 'nav.menu' %}" aria-expanded="false" aria-controls="mainNav">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <nav class="main-nav" id="mainNav">
+	            <a href="{% url 'portfolio:home' %}#projects">{% tr 'nav.projects' %}</a>
+	            <a href="{% url 'portfolio:blog_list' %}">{% tr 'nav.blog' %}</a>
+	            <a href="{% url 'portfolio:home' %}#about">{% tr 'nav.about' %}</a>
+	            <a href="{% url 'portfolio:home' %}#contact">{% tr 'nav.contact' %}</a>
+	            <a href="{% url 'portfolio:booking' %}">{% tr 'nav.booking' %}</a>
+            {% if cv_download_url %}
+            <a href="{{ cv_download_url }}" target="_blank" rel="noopener">CV</a>
+            {% endif %}
+            {% if request.user.is_authenticated %}
+	            <a href="{% url 'portfolio:profile' %}">{% tr 'nav.profile' %}</a>
+	            <a href="{% url 'portfolio:logout' %}">{% tr 'nav.logout' %}</a>
+	            {% else %}
+	            <a href="{% url 'portfolio:login' %}">{% tr 'nav.login' %}</a>
+	            <a href="{% url 'portfolio:signup' %}">{% tr 'nav.signup' %}</a>
+	            {% endif %}
+	            <a href="/admin/">{% tr 'nav.admin' %}</a>
+                <div class="lang-switch">
+                    <a
+                        href="{{ language_switch_urls.uz }}"
+                        {% if current_language == 'uz' %}class="active"{% endif %}
+                    >O'zbekcha</a>
+                    <a
+                        href="{{ language_switch_urls.en }}"
+                        {% if current_language == 'en' %}class="active"{% endif %}
+                    >English</a>
+                    <a
+                        href="{{ language_switch_urls.ru }}"
+                        {% if current_language == 'ru' %}class="active"{% endif %}
+                    >Русский</a>
+                </div>
+        </nav>
+	        <button id="themeToggle" class="theme-toggle" type="button" aria-label="{% tr 'base.theme_toggle' %}">
+            <span class="theme-icon" aria-hidden="true">◐</span>
+        </button>
+    </div>
+</header>
+<div class="nav-backdrop" id="navBackdrop" aria-hidden="true"></div>
+<div class="scroll-progress" aria-hidden="true">
+    <span id="scrollProgressBar"></span>
+</div>
+
+<main id="main-content">
+    {% block content %}{% endblock %}
+</main>
+
+<footer class="site-footer">
+    <div class="container footer-inner">
+        <p>© {% now "Y" %} Inomjon. Backend Portfolio.</p>
+	        <p class="muted">{% tr 'base.footer_powered' %}</p>
+    </div>
+</footer>
+
+<script src="{% static 'js/main.js' %}" defer></script>
+{% if recaptcha_site_key %}
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+{% endif %}
+</body>
+</html>

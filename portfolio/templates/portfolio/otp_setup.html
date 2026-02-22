@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load portfolio_i18n %}
+{% block title %}{% tr 'otp_setup.title' %}{% endblock %}
+{% block content %}
+<section class="section container glass reveal">
+    <h2>{% tr 'otp_setup.heading' %}</h2>
+    <p>{% tr 'otp_setup.description' %}</p>
+    <p><code>{{ config_url }}</code></p>
+    <a class="btn" href="{% url 'portfolio:otp_verify' %}">{% tr 'otp_setup.verify_btn' %}</a>
+</section>
+{% endblock %}

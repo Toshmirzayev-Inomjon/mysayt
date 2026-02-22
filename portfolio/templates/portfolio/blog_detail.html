@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load portfolio_i18n %}
+{% block title %}{% if post.meta_title %}{{ post.meta_title }}{% else %}{{ post.title }} - Blog{% endif %}{% endblock %}
+{% block meta_description %}{% if post.meta_description %}{{ post.meta_description }}{% else %}{{ post.summary|truncatechars:150 }}{% endif %}{% endblock %}
+{% block og_title %}{% if post.meta_title %}{{ post.meta_title }}{% else %}{{ post.title }} - Blog{% endif %}{% endblock %}
+{% block og_description %}{% if post.meta_description %}{{ post.meta_description }}{% else %}{{ post.summary|truncatechars:150 }}{% endif %}{% endblock %}
+{% block canonical_url %}{{ site_url }}{{ post.get_absolute_url }}{% endblock %}
+{% block og_image %}{% if post.cover_image %}{{ site_url }}{{ post.cover_image.url }}{% else %}{{ default_og_image }}{% endif %}{% endblock %}
+{% block twitter_image %}{% if post.cover_image %}{{ site_url }}{{ post.cover_image.url }}{% else %}{{ default_og_image }}{% endif %}{% endblock %}
+{% block structured_data %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "{{ post.title|escapejs }}",
+  "description": "{{ post.summary|truncatechars:150|escapejs }}",
+  "datePublished": "{{ post.published_at|date:'c' }}",
+  "mainEntityOfPage": "{{ site_url }}{{ post.get_absolute_url }}",
+  "author": {"@type": "Person", "name": "Inomjon"},
+  "publisher": {"@type": "Person", "name": "Inomjon"}
+}
+</script>
+{% endblock %}
+{% block content %}
+<section class="section container reveal">
+    <a class="back-link" href="{% url 'portfolio:blog_list' %}">{% tr 'blog_detail.back' %}</a>
+    <h1>{{ post.title }}</h1>
+    <p class="date-line">{{ post.published_at }}</p>
+    {% if post.cover_image %}
+        <img src="{{ post.cover_image.url }}" alt="{{ post.title }}" class="detail-image" loading="lazy" decoding="async">
+    {% endif %}
+    <p class="lead">{{ post.summary }}</p>
+    <div class="article-body">{{ post.content|linebreaks }}</div>
+</section>
+{% endblock %}

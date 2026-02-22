@@ -1,0 +1,62 @@
+[
+  {
+    "model": "portfolio.project",
+    "pk": 1,
+    "fields": {
+      "title": "E-commerce API",
+      "short_description": "Onlayn do'kon uchun REST API: mahsulot, buyurtma va to'lov modullari.",
+      "result_metrics": "Checkout vaqti 41% tezlashdi, buyurtma xatoliklari 27% kamaydi.",
+      "how_it_works": "Foydalanuvchi ro'yxatdan o'tadi va token oladi.\nMahsulotlarni katalogdan ko'radi va savatga qo'shadi.\nCheckout jarayonida buyurtma yaratiladi va to'lov gateway bilan bog'lanadi.\nAdmin panelda buyurtmalar holati boshqariladi.",
+      "technologies": "Django, Django REST Framework, PostgreSQL, JWT",
+      "github_url": "https://github.com/your-username/ecommerce-api",
+      "live_url": "",
+      "image": "",
+      "is_featured": true,
+      "order": 1,
+      "created_at": "2025-11-15"
+    }
+  },
+  {
+    "model": "portfolio.project",
+    "pk": 2,
+    "fields": {
+      "title": "CRM Tizimi",
+      "short_description": "Kichik biznes uchun mijozlar, lead va task tracking platformasi.",
+      "result_metrics": "Lead conversion 18% oshdi, menedjer response vaqti 35% qisqardi.",
+      "how_it_works": "Leadlar forma orqali tizimga tushadi.\nSotuv menedjeri leadni statuslar bo'yicha harakatlantiradi.\nHar bir mijoz uchun tasklar va eslatmalar yaratiladi.\nHisobot sahifasi conversion va faoliyat statistikasini ko'rsatadi.",
+      "technologies": "Django, Celery, Redis, Bootstrap",
+      "github_url": "https://github.com/your-username/crm-system",
+      "live_url": "",
+      "image": "",
+      "is_featured": true,
+      "order": 2,
+      "created_at": "2024-09-08"
+    }
+  },
+  {
+    "model": "portfolio.blogpost",
+    "pk": 1,
+    "fields": {
+      "title": "E-commerce API’da 40% tezlashuvga qanday erishdik",
+      "slug": "ecommerce-api-40-foiz-tezlashuv",
+      "summary": "Query optimizatsiya, caching va async tasklar yordamida API tezligini oshirish tajribasi.",
+      "content": "Bu case studyda API profiling, indekslash va cache qatlamini amalda qanday qo'llaganimizni ko'rsataman.\n\n1) N+1 querylarni bartaraf etdik.\n2) Redis caching qo'shdik.\n3) Og'ir operatsiyalarni Celeryga ko'chirdik.",
+      "cover_image": "",
+      "is_published": true,
+      "published_at": "2026-01-18"
+    }
+  },
+  {
+    "model": "portfolio.blogpost",
+    "pk": 2,
+    "fields": {
+      "title": "CRM loyihasida scale uchun arxitektura qarorlari",
+      "slug": "crm-scale-arxitektura-qarorlari",
+      "summary": "Monolitdan modulga bo'lish, queue strategiyasi va observability asoslari.",
+      "content": "CRM o'sganda eng katta muammo bottleneck bo'ladi.\n\nBu maqolada modulga ajratish, queue va monitoring stack tanlovi haqida yozaman.",
+      "cover_image": "",
+      "is_published": true,
+      "published_at": "2025-12-05"
+    }
+  }
+]

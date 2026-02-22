@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load portfolio_i18n %}
+{% block title %}{% tr 'signup.title' %}{% endblock %}
+{% block meta_description %}{% tr 'signup.meta_description' %}{% endblock %}
+{% block content %}
+<section class="section container glass reveal">
+    <div class="section-head">
+        <p class="section-kicker">{% tr 'auth.kicker_account' %}</p>
+        <h2>{% tr 'signup.heading' %}</h2>
+    </div>
+    <form method="post" class="contact-form">
+        {% csrf_token %}
+        {% for field in form %}
+            {% for error in field.errors %}
+                <p class="alert">{{ error }}</p>
+            {% endfor %}
+            {{ field }}
+        {% endfor %}
+        <button type="submit" class="btn">{% tr 'signup.submit' %}</button>
+    </form>
+    <p class="muted">{% tr 'signup.notice' %}</p>
+    <p>{% tr 'signup.have_account' %} <a href="{% url 'portfolio:login' %}">{% tr 'login.title' %}</a></p>
+</section>
+{% endblock %}

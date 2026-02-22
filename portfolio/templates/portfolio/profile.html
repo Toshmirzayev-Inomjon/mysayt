@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load portfolio_i18n %}
+{% block title %}{% tr 'profile.title' %}{% endblock %}
+{% block meta_description %}{% tr 'profile.meta_description' %}{% endblock %}
+{% block content %}
+<section class="section container glass reveal">
+    <div class="section-head">
+        <p class="section-kicker">{% tr 'profile.kicker' %}</p>
+        <h2>{% tr 'profile.heading' %}</h2>
+    </div>
+    <p><strong>{% tr 'profile.username' %}</strong> {{ request.user.username }}</p>
+    <p><strong>{% tr 'profile.email' %}</strong> {% if request.user.email %}{{ request.user.email }}{% else %}{% tr 'profile.not_provided' %}{% endif %}</p>
+    <p><strong>{% tr 'profile.theme' %}</strong> {{ preference.theme }}</p>
+    <p><strong>{% tr 'profile.language' %}</strong> {{ preference.language }}</p>
+    <p><strong>{% tr 'profile.twofa' %}</strong> {% if otp_enabled %}{% tr 'profile.enabled' %}{% else %}{% tr 'profile.disabled' %}{% endif %}</p>
+    <form method="post" action="{% url 'portfolio:set_theme' %}" class="contact-form">
+        {% csrf_token %}
+        <select name="theme">
+            <option value="dark" {% if preference.theme == 'dark' %}selected{% endif %}>{% tr 'profile.theme_dark' %}</option>
+            <option value="light" {% if preference.theme == 'light' %}selected{% endif %}>{% tr 'profile.theme_light' %}</option>
+        </select>
+        <button type="submit" class="btn">{% tr 'profile.theme_save' %}</button>
+    </form>
+    <div class="actions-row">
+        <a class="btn" href="{% url 'portfolio:home' %}">{% tr 'profile.home_btn' %}</a>
+        <a class="btn ghost" href="{% url 'portfolio:password_reset' %}">{% tr 'profile.password_update' %}</a>
+        {% if has_otp %}
+        <a class="btn ghost" href="{% url 'portfolio:otp_setup' %}">{% tr 'profile.otp_setup' %}</a>
+        <a class="btn ghost" href="{% url 'portfolio:otp_verify' %}">{% tr 'profile.otp_verify' %}</a>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

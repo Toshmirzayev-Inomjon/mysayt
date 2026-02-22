@@ -1,0 +1,3 @@
+# Agar systemd timer ishlatmasangiz, cron misoli:
+# Har kuni 02:30 da backup
+30 2 * * * cd /var/www/portfolio && /var/www/portfolio/scripts/backup.sh >> /var/log/portfolio-backup.log 2>&1

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load portfolio_i18n %}
+{% block title %}{% tr 'otp_verify.title' %}{% endblock %}
+{% block content %}
+<section class="section container glass reveal">
+    <h2>{% tr 'otp_verify.heading' %}</h2>
+    <form method="post" class="contact-form">
+        {% csrf_token %}
+        {{ form.token }}
+        <button type="submit" class="btn">{% tr 'otp_verify.submit' %}</button>
+    </form>
+</section>
+{% endblock %}

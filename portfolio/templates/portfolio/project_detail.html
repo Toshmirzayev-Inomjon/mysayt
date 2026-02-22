@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% load portfolio_i18n %}
+{% block title %}{{ project.title }} - Portfolio{% endblock %}
+{% block meta_description %}{{ project.short_description|truncatechars:150 }}{% endblock %}
+{% block og_title %}{{ project.title }} - Inomjon Portfolio{% endblock %}
+{% block og_description %}{{ project.short_description|truncatechars:150 }}{% endblock %}
+{% block canonical_url %}{{ site_url }}{{ project.get_absolute_url }}{% endblock %}
+{% block og_image %}{% if project.image %}{{ site_url }}{{ project.image.url }}{% else %}{{ default_og_image }}{% endif %}{% endblock %}
+{% block twitter_image %}{% if project.image %}{{ site_url }}{{ project.image.url }}{% else %}{{ default_og_image }}{% endif %}{% endblock %}
+{% block structured_data %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareSourceCode",
+  "name": "{{ project.title|escapejs }}",
+  "description": "{{ project.short_description|truncatechars:150|escapejs }}",
+  "codeRepository": "{% if project.github_url %}{{ project.github_url }}{% else %}{{ site_url }}{{ project.get_absolute_url }}{% endif %}",
+  "url": "{{ site_url }}{{ project.get_absolute_url }}",
+  "programmingLanguage": "{{ project.technologies|escapejs }}"
+}
+</script>
+{% endblock %}
+{% block content %}
+<section class="section container detail-wrap reveal">
+    <a class="back-link" href="{% url 'portfolio:home' %}">{% tr 'project.back_home' %}</a>
+    <h1>{{ project.title }}</h1>
+    <div class="meta-row">
+        <p class="muted">{% tr 'project.created_date' %} {{ project.created_at }}</p>
+        <p class="chip">{% tr 'project.case_study_chip' %}</p>
+    </div>
+
+    {% if project.image %}
+        <img src="{{ project.image.url }}" alt="{{ project.title }}" class="detail-image reveal" loading="lazy" decoding="async">
+    {% else %}
+        <img src="https://picsum.photos/seed/project-detail{{ project.pk }}/1200/700" alt="{{ project.title }}" class="detail-image reveal" loading="lazy" decoding="async">
+    {% endif %}
+
+    <div class="detail-grid">
+        <div class="reveal">
+            <h2>{% tr 'project.description' %}</h2>
+            <p>{{ project.short_description }}</p>
+            {% if project.result_metrics %}
+            <h2>{% tr 'project.results' %}</h2>
+            <p>{{ project.result_metrics }}</p>
+            {% endif %}
+
+            {% if project.metric_before or project.metric_after %}
+            <h2>{% tr 'project.metrics_heading' %}</h2>
+            <div class="metric-pair">
+                {% if project.metric_before %}
+                <div class="metric-card before">
+                    <p class="metric-label">{% tr 'project.metric_before' %}</p>
+                    <strong>{{ project.metric_before }}</strong>
+                </div>
+                {% endif %}
+                {% if project.metric_after %}
+                <div class="metric-card after">
+                    <p class="metric-label">{% tr 'project.metric_after' %}</p>
+                    <strong>{{ project.metric_after }}</strong>
+                </div>
+                {% endif %}
+            </div>
+            {% endif %}
+
+            <h2>{% tr 'project.technologies' %}</h2>
+            <p>{{ project.technologies }}</p>
+
+            <div class="links">
+                {% if project.github_url %}
+                    <a class="btn" href="{{ project.github_url }}" target="_blank" rel="noopener">GitHub</a>
+                {% endif %}
+                {% if project.live_url %}
+                    <a class="btn secondary" href="{{ project.live_url }}" target="_blank" rel="noopener">{% tr 'project.live_demo' %}</a>
+                {% endif %}
+                {% if project.demo_video_url %}
+                    <a class="btn ghost" href="{{ project.demo_video_url }}" target="_blank" rel="noopener">{% tr 'project.demo_video' %}</a>
+                {% endif %}
+            </div>
+
+            {% if project.demo_video_url %}
+            <h2>{% tr 'project.demo_video_heading' %}</h2>
+            <div class="article-body">
+                <p>{% tr 'project.video_link' %} <a href="{{ project.demo_video_url }}" target="_blank" rel="noopener">{{ project.demo_video_url }}</a></p>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="reveal" style="--stagger: 1;">
+            <h2>{% tr 'project.how_it_works' %}</h2>
+            {% if steps %}
+            <ol class="steps timeline">
+                {% for step in steps %}
+                <li>
+                    <span class="timeline-icon">{{ forloop.counter }}</span>
+                    <p>{{ step }}</p>
+                </li>
+                {% endfor %}
+            </ol>
+            {% else %}
+            <p>{{ project.how_it_works }}</p>
+            {% endif %}
+        </div>
+    </div>
+
+    {% if project.screenshots.all %}
+    <h2>{% tr 'project.screenshots' %}</h2>
+    <div class="project-grid">
+        {% for shot in project.screenshots.all %}
+        <article class="project-card reveal" style="--stagger: {{ forloop.counter0 }};">
+            <img src="{{ shot.image.url }}" alt="{{ shot.caption|default:project.title }}" class="project-image" loading="lazy" decoding="async">
+            {% if shot.caption %}
+            <p>{{ shot.caption }}</p>
+            {% endif %}
+        </article>
+        {% endfor %}
+    </div>
+    {% endif %}
+</section>
+{% endblock %}

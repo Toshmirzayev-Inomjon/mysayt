@@ -1,0 +1,19 @@
+[Unit]
+Description=Gunicorn service for Django Portfolio
+After=network.target
+
+[Service]
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/portfolio
+EnvironmentFile=/var/www/portfolio/.env
+ExecStart=/var/www/portfolio/.venv/bin/gunicorn config.wsgi:application \
+    --workers 3 \
+    --bind unix:/run/gunicorn-portfolio.sock \
+    --access-logfile - \
+    --error-logfile -
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,342 @@
+{% extends 'base.html' %}
+{% load portfolio_i18n %}
+{% block title %}{% tr 'home.title' %}{% endblock %}
+{% block meta_description %}{% tr 'home.meta_description' %}{% endblock %}
+{% block og_title %}Inomjon Portfolio{% endblock %}
+{% block og_description %}{% tr 'home.og_description' %}{% endblock %}
+{% block structured_data %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Inomjon Portfolio",
+  "url": "{{ site_url }}",
+  "inLanguage": "{{ current_language|default:'uz' }}",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "{{ site_url }}/?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+{% endblock %}
+{% block content %}
+<section class="hero container reveal" data-parallax="6">
+    <div class="hero-shell">
+        <div class="hero-content">
+            <p class="tag">{% tr 'home.tag_backend' %}</p>
+            <h1 class="title-gradient">{{ hero_title }}</h1>
+            <p class="lead">{{ hero_lead }}</p>
+            <div class="hero-cta">
+                <a href="#projects" class="btn">{% tr 'home.cta_projects' %}</a>
+                <a href="#contact" class="btn ghost">{% tr 'home.cta_contact' %}</a>
+                {% if cv_download_url %}<a href="{{ cv_download_url }}" class="btn ghost" target="_blank" rel="noopener">{% tr 'home.cta_cv' %}</a>{% endif %}
+            </div>
+            <div class="hero-stats">
+                <div><strong data-counter="{{ projects|length }}">0</strong><span>{% tr 'home.stats_projects' %}</span></div>
+                <div><strong data-counter="{{ featured_projects|length }}">0</strong><span>{% tr 'home.stats_featured' %}</span></div>
+                <div><strong data-counter="24">0</strong><span>{% tr 'home.stats_support' %}</span></div>
+            </div>
+        </div>
+        <aside class="hero-panel reveal" style="--stagger: 1;">
+            <p class="hero-panel__kicker">{% tr 'home.hero_panel_kicker' %}</p>
+            <h3>{% tr 'home.hero_panel_title' %}</h3>
+            <div class="hero-reel-wrap">
+                <div class="hero-reel-skeleton"></div>
+                <video
+                    class="hero-reel"
+                    autoplay
+                    muted
+                    loop
+                    playsinline
+                    preload="none"
+                    poster="https://images.unsplash.com/photo-1484417894907-623942c8ee29?auto=format&fit=crop&w=1280&q=80"
+                    data-video-fallback="1"
+                >
+                    <source src="https://cdn.coverr.co/videos/coverr-close-up-of-code-on-a-screen-1571/1080p.mp4" type="video/mp4">
+                </video>
+            </div>
+            <ul class="hero-list">
+                <li>{% tr 'home.hero_focus_point_1' %}</li>
+                <li>{% tr 'home.hero_focus_point_2' %}</li>
+                <li>{% tr 'home.hero_focus_point_3' %}</li>
+            </ul>
+            <div class="hero-gallery">
+                <img src="https://images.unsplash.com/photo-1518773553398-650c184e0bb3?auto=format&fit=crop&w=900&q=80" alt="Workspace image">
+                <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=900&q=80" alt="Code image">
+            </div>
+        </aside>
+    </div>
+</section>
+
+<section class="ticker-wrap reveal" aria-label="Technology ticker">
+    <div class="ticker-track">
+        <span>Django</span><span>DRF</span><span>PostgreSQL</span><span>Redis</span><span>Celery</span><span>Gunicorn</span><span>Nginx</span><span>Docker</span>
+        <span>Django</span><span>DRF</span><span>PostgreSQL</span><span>Redis</span><span>Celery</span><span>Gunicorn</span><span>Nginx</span><span>Docker</span>
+    </div>
+</section>
+
+<div class="section-divider" aria-hidden="true">
+    <svg viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,64 C180,120 380,0 600,42 C800,82 980,14 1200,70 L1200,120 L0,120 Z"></path></svg>
+</div>
+
+<section id="about" class="section container glass reveal">
+    <p class="section-kicker">{% tr 'home.about_kicker' %}</p>
+    <h2>{% tr 'home.about_heading' %}</h2>
+    <p>{% tr 'home.about_text' %}</p>
+</section>
+
+{% if featured_projects %}
+<section class="section container reveal">
+    <div class="section-head">
+        <p class="section-kicker">{% tr 'home.featured_kicker' %}</p>
+        <h2>{% tr 'home.featured_heading' %}</h2>
+    </div>
+    <div class="project-grid featured-grid">
+        {% for project in featured_projects %}
+        <article class="project-card featured reveal" style="--stagger: {{ forloop.counter0 }};">
+            <p class="chip">{% tr 'home.featured_chip' %}</p>
+            <h3>{{ project.title }}</h3>
+            <p>{{ project.short_description|truncatechars:140 }}</p>
+            <div class="actions-row">
+                <a class="btn" href="{% url 'portfolio:project_detail' project.pk %}">{% tr 'home.project_how_it_works' %}</a>
+                <button
+                    type="button"
+                    class="btn ghost preview-btn"
+                    data-title="{{ project.title }}"
+                    data-description="{{ project.short_description }}"
+                    data-tech="{{ project.technologies }}"
+                    data-link="{% url 'portfolio:project_detail' project.pk %}"
+                    data-image="{% if project.image %}{{ project.image.url }}{% else %}https://picsum.photos/seed/preview-featured{{ project.pk }}/1200/700{% endif %}"
+                >{% tr 'home.preview' %}</button>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+<div class="section-divider alt" aria-hidden="true">
+    <svg viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,26 C200,82 360,14 580,48 C790,78 980,16 1200,50 L1200,120 L0,120 Z"></path></svg>
+</div>
+
+<section id="projects" class="section container reveal">
+    <div class="section-head">
+        <p class="section-kicker">{% tr 'home.projects_kicker' %}</p>
+        <h2>{% tr 'home.projects_heading' %}</h2>
+    </div>
+
+    <form method="get" class="search-form">
+        <input type="text" name="q" value="{{ query }}" placeholder="{% tr 'home.search_placeholder' %}">
+        <select name="category">
+            <option value="">{% tr 'home.category_all' %}</option>
+            {% for category in categories %}
+            <option value="{{ category.slug }}" {% if selected_category == category.slug %}selected{% endif %}>{{ category.name }}</option>
+            {% endfor %}
+        </select>
+        <select name="tag">
+            <option value="">{% tr 'home.tag_all' %}</option>
+            {% for tag in tags %}
+            <option value="{{ tag.slug }}" {% if selected_tag == tag.slug %}selected{% endif %}>{{ tag.name }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="btn">{% tr 'home.search_btn' %}</button>
+    </form>
+
+    {% if messages %}
+        {% for message in messages %}
+            <p class="alert">{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+
+    {% if projects %}
+    <div class="project-grid">
+        {% for project in projects %}
+        <article class="project-card reveal" style="--stagger: {{ forloop.counter0 }};">
+            {% if project.image %}
+                <img src="{{ project.image.url }}" alt="{{ project.title }}" class="project-image" loading="lazy" decoding="async">
+            {% else %}
+                <img src="https://picsum.photos/seed/project{{ project.pk }}/900/560" alt="{{ project.title }}" class="project-image" loading="lazy" decoding="async">
+            {% endif %}
+            <h3>{{ project.title }}</h3>
+            <p>{{ project.short_description|truncatechars:160 }}</p>
+            {% if project.category %}
+            <p class="chip">{{ project.category.name }}</p>
+            {% endif %}
+            <p class="tech-line"><strong>{% tr 'home.tech_label' %}</strong> {{ project.technologies }}</p>
+            {% if project.tags.all %}
+            <p class="tech-line"><strong>{% tr 'home.tags_label' %}</strong>
+                {% for tag in project.tags.all %}#{{ tag.name }}{% if not forloop.last %}, {% endif %}{% endfor %}
+            </p>
+            {% endif %}
+            {% if project.result_metrics %}
+            <p class="tech-line"><strong>{% tr 'home.result_label' %}</strong> {{ project.result_metrics|truncatechars:120 }}</p>
+            {% endif %}
+            <p class="date-line">{% tr 'home.created_label' %} {{ project.created_at }}</p>
+            <div class="actions-row">
+                <a class="btn" href="{% url 'portfolio:project_detail' project.pk %}">{% tr 'home.details_btn' %}</a>
+                {% if project.demo_video_url %}
+                <a class="btn ghost" href="{{ project.demo_video_url }}" target="_blank" rel="noopener">{% tr 'home.demo_video_btn' %}</a>
+                {% endif %}
+                <button
+                    type="button"
+                    class="btn ghost preview-btn"
+                    data-title="{{ project.title }}"
+                    data-description="{{ project.short_description }}"
+                    data-tech="{{ project.technologies }}"
+                    data-link="{% url 'portfolio:project_detail' project.pk %}"
+                    data-image="{% if project.image %}{{ project.image.url }}{% else %}https://picsum.photos/seed/preview{{ project.pk }}/1200/700{% endif %}"
+                >{% tr 'home.preview' %}</button>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+    {% else %}
+        <p>{% tr 'home.no_results' %}</p>
+    {% endif %}
+</section>
+
+{% if packages %}
+<section class="section container reveal">
+    <div class="section-head">
+        <p class="section-kicker">{% tr 'home.services_kicker' %}</p>
+        <h2>{% tr 'home.services_heading' %}</h2>
+    </div>
+    <div class="project-grid">
+        {% for package in packages %}
+        <article class="project-card reveal" style="--stagger: {{ forloop.counter0 }};">
+            <h3>{{ package.name }}</h3>
+            <p class="chip">{{ package.price_label }}</p>
+            <p>{{ package.description }}</p>
+            <p class="tech-line">{{ package.features|linebreaksbr }}</p>
+            <a class="btn" href="{% url 'portfolio:booking' %}">{% tr 'home.order_btn' %}</a>
+        </article>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+<section class="section container reveal">
+    <div class="section-head">
+        <p class="section-kicker">{% tr 'home.blog_kicker' %}</p>
+        <h2>{% tr 'home.blog_heading' %}</h2>
+    </div>
+    {% if latest_posts %}
+    <div class="project-grid">
+        {% for post in latest_posts %}
+        <article class="project-card reveal" style="--stagger: {{ forloop.counter0 }};">
+            {% if post.cover_image %}
+                <img src="{{ post.cover_image.url }}" alt="{{ post.title }}" class="project-image" loading="lazy" decoding="async">
+            {% else %}
+                <img src="https://picsum.photos/seed/blog{{ post.pk }}/900/560" alt="{{ post.title }}" class="project-image" loading="lazy" decoding="async">
+            {% endif %}
+            <h3>{{ post.title }}</h3>
+            <p>{{ post.summary|truncatechars:140 }}</p>
+            <div class="actions-row">
+                <a class="btn" href="{% url 'portfolio:blog_detail' post.slug %}">{% tr 'home.read_btn' %}</a>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+    <p><a class="btn ghost" href="{% url 'portfolio:blog_list' %}">{% tr 'home.all_posts_btn' %}</a></p>
+    {% else %}
+    <p>{% tr 'home.no_posts' %}</p>
+    {% endif %}
+</section>
+
+{% if testimonials %}
+<section class="section container reveal">
+    <div class="section-head">
+        <p class="section-kicker">{% tr 'home.testimonials_kicker' %}</p>
+        <h2>{% tr 'home.testimonials_heading' %}</h2>
+    </div>
+    <p class="muted">{% tr 'home.testimonials_slider_hint' %}</p>
+    <div class="testimonials-slider" data-testimonials-slider="1">
+        <button type="button" class="slider-nav prev" data-slider-dir="prev">{% tr 'home.testimonials_prev' %}</button>
+        <div class="testimonials-track-wrap">
+            <div class="testimonials-track">
+                {% for item in testimonials %}
+                <article class="project-card testimonial-slide reveal" style="--stagger: {{ forloop.counter0 }};">
+                    <h3>{{ item.full_name }}</h3>
+                    <p class="muted">{{ item.role }}{% if item.company %} • {{ item.company }}{% endif %}</p>
+                    <p>{{ item.feedback|truncatechars:220 }}</p>
+                    <p class="chip">{{ item.rating }}/5</p>
+                </article>
+                {% endfor %}
+            </div>
+        </div>
+        <button type="button" class="slider-nav next" data-slider-dir="next">{% tr 'home.testimonials_next' %}</button>
+    </div>
+
+    {% if client_logos %}
+    <div class="client-logos">
+        <p class="section-kicker">{% tr 'home.client_logos_heading' %}</p>
+        <div class="client-logos__row">
+            {% for company in client_logos %}
+            <span class="client-logo-pill">{{ company }}</span>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+</section>
+{% endif %}
+
+<section id="contact" class="section container glass reveal">
+    <div class="section-head">
+        <p class="section-kicker">{% tr 'home.contact_kicker' %}</p>
+        <h2>{% tr 'home.contact_heading' %}</h2>
+    </div>
+    <p>{% tr 'home.contact_desc' %}</p>
+    <form method="post" class="contact-form">
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+            <p class="alert">{{ form.non_field_errors|join:", " }}</p>
+        {% endif %}
+        {% for field in form %}
+            {% for error in field.errors %}
+                <p class="alert">{{ error }}</p>
+            {% endfor %}
+        {% endfor %}
+        {{ form.website }}
+        {{ form.full_name }}
+        {{ form.email }}
+        {{ form.message }}
+        {% if recaptcha_site_key %}
+        <div class="captcha-wrap">
+            <div class="g-recaptcha" data-sitekey="{{ recaptcha_site_key }}"></div>
+        </div>
+        {% endif %}
+        <button type="submit" class="btn">{% tr 'home.contact_submit' %}</button>
+    </form>
+</section>
+
+<section class="section container glass reveal">
+    <div class="section-head">
+        <p class="section-kicker">{% tr 'home.newsletter_kicker' %}</p>
+        <h2>{% tr 'home.newsletter_heading' %}</h2>
+    </div>
+    <form method="post" action="{% url 'portfolio:newsletter_subscribe' %}" class="contact-form">
+        {% csrf_token %}
+        {{ newsletter_form.email }}
+        <button type="submit" class="btn">{% tr 'home.newsletter_submit' %}</button>
+    </form>
+</section>
+
+<div
+    class="project-modal"
+    id="projectModal"
+    aria-hidden="true"
+    data-tech-label="{% tr 'home.tech_label' %}"
+    data-default-title="{% tr 'home.modal_default_title' %}"
+>
+    <div class="project-modal__backdrop" data-close-modal="1"></div>
+    <div class="project-modal__panel">
+        <button class="project-modal__close" id="modalClose" type="button" aria-label="{% tr 'home.modal_close' %}">×</button>
+        <img id="modalImage" class="project-modal__image" alt="Preview">
+        <h3 id="modalTitle"></h3>
+        <p id="modalDescription"></p>
+        <p id="modalTech" class="tech-line"></p>
+        <a id="modalLink" class="btn" href="#">{% tr 'home.modal_details_btn' %}</a>
+    </div>
+</div>
+{% endblock %}

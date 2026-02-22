@@ -1,0 +1,13 @@
+Django==5.2.11
+pillow==12.1.1
+gunicorn==23.0.0
+psycopg[binary]==3.2.9
+whitenoise==6.11.0
+django-storages==1.14.6
+boto3==1.40.18
+sentry-sdk==2.35.1
+django-axes==8.0.0
+django-otp==1.6.3
+djangorestframework==3.16.1
+celery==5.5.3
+redis==6.4.0
