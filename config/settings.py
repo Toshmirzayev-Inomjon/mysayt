@@ -34,6 +34,7 @@ def module_exists(name):
 
 
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-change-this-in-production')
+DEBUG = os.getenv("DEBUG", "False").lower() in ("1", "true", "yes", "y", "on")
 ALLOWED_HOSTS = [h.strip() for h in os.getenv('DJANGO_ALLOWED_HOSTS', '*').split(',') if h.strip()]
 
 SITE_URL = os.getenv('DJANGO_SITE_URL', 'http://127.0.0.1:8000').rstrip('/')
