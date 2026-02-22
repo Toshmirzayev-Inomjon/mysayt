@@ -34,7 +34,6 @@ def module_exists(name):
 
 
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-change-this-in-production')
-DEBUG = env_bool('DJANGO_DEBUG', True)
 ALLOWED_HOSTS = [h.strip() for h in os.getenv('DJANGO_ALLOWED_HOSTS', '*').split(',') if h.strip()]
 
 SITE_URL = os.getenv('DJANGO_SITE_URL', 'http://127.0.0.1:8000').rstrip('/')
@@ -78,6 +77,8 @@ MIDDLEWARE += [
     'django.contrib.messages.middleware.MessageMiddleware',
     'portfolio.middleware.SecurityHeadersMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 if module_exists('axes'):
     MIDDLEWARE.append('axes.middleware.AxesMiddleware')
@@ -247,6 +248,7 @@ HEALTHCHECK_ALERT_COOLDOWN_SECONDS = int(os.getenv('HEALTHCHECK_ALERT_COOLDOWN_S
 LOGIN_REDIRECT_URL = '/accounts/profile/'
 LOGOUT_REDIRECT_URL = '/'
 
+
 # Signup defaults (use with caution in production).
 SIGNUP_AUTO_ACTIVATE = env_bool('SIGNUP_AUTO_ACTIVATE', False)
 SIGNUP_AUTO_STAFF = env_bool('SIGNUP_AUTO_STAFF', False)
@@ -263,7 +265,7 @@ NEWSLETTER_CAMPAIGN_PROVIDER = os.getenv('NEWSLETTER_CAMPAIGN_PROVIDER', 'none')
 NEWSLETTER_CAMPAIGN_API_KEY = os.getenv('NEWSLETTER_CAMPAIGN_API_KEY', '')
 CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL', '')
 CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND', '')
-
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 SENTRY_DSN = os.getenv('SENTRY_DSN', '')
 if SENTRY_DSN and module_exists('sentry_sdk'):
     import sentry_sdk
@@ -273,3 +275,9 @@ if SENTRY_DSN and module_exists('sentry_sdk'):
         traces_sample_rate=float(os.getenv('SENTRY_TRACES_SAMPLE_RATE', '0.2')),
         send_default_pii=True,
     )
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+    "mysayt-1.onrender.com",
+    ".onrender.com",
+]
